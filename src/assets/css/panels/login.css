@@ -7,11 +7,16 @@
 
 .login-tabs {
     position: absolute;
-    padding: 15px;
-    background: var(--background);
-    border-radius: 15px;
+    padding: 2rem 3rem;
+    background: rgba(20, 20, 20, 0.55);
+    backdrop-filter: blur(15px);
+    border-radius: 20px;
     text-align: center;
-    min-width: 40%;
+    min-width: 400px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+
+    animation: fadeIn 0.8s ease-out;
 }
 
 .login-home,

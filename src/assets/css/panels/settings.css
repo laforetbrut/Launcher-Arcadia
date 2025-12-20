@@ -6,12 +6,14 @@
 .nav-settings {
     width: 20%;
     height: 100%;
-    background: var(--background);
+    background: rgba(20, 20, 20, 0.6);
+    backdrop-filter: blur(15px);
     display: flex;
     align-items: center;
     flex-direction: column;
     justify-content: center;
     font-size: 2.5rem;
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .nav-settings p {
@@ -47,29 +49,23 @@
     cursor: pointer;
     border-radius: 12px;
 
-    background: rgba(20, 20, 20, 0.35);
-    backdrop-filter: blur(6px);
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
-
+    background: transparent;
     border: none;
-    transition: transform 0.2s ease;
+    transition: all 0.2s ease;
     z-index: 1;
+    border-left: 3px solid transparent;
 }
 
-.nav-settings-btn::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: 12px;
-    padding: 1.5px;
-    background: linear-gradient(90deg, #ff6600, #ff8533);
-    -webkit-mask:
-        linear-gradient(#fff 0 0) content-box,
-        linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-            mask-composite: exclude;
-    pointer-events: none;
-    z-index: -1;
+.nav-settings-btn:hover {
+    background: rgba(255, 255, 255, 0.05);
+    transform: translateX(5px);
+}
+
+.active-settings-BTN {
+    background: linear-gradient(90deg, rgba(255, 102, 0, 0.2), transparent);
+    border-left: 3px solid #ff6600;
+    color: #fff;
+    text-shadow: 0 0 10px rgba(255, 102, 0, 0.5);
 }
 
 .nav-settings-btn:hover {
@@ -101,9 +97,10 @@
     padding: 1.5rem 2rem;
     margin: 0.5rem;
 
-    background: rgba(20, 20, 20, 0.35);
-    backdrop-filter: blur(6px);
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+    background: rgba(20, 20, 20, 0.5);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 
     color: var(--color);
     z-index: 1;
@@ -120,7 +117,7 @@
         linear-gradient(#fff 0 0) content-box,
         linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
-            mask-composite: exclude;
+    mask-composite: exclude;
     pointer-events: none;
     z-index: -1;
 }
@@ -149,10 +146,11 @@
     color: var(--color);
 
     border-radius: 12px;
-    background: rgba(20, 20, 20, 0.35);
-    backdrop-filter: blur(6px);
+    background: rgba(20, 20, 20, 0.5);
+    backdrop-filter: blur(10px);
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
     z-index: 1;
+    border-bottom: 2px solid #ff6600;
 }
 
 .titre-tab::before {
@@ -166,7 +164,7 @@
         linear-gradient(#fff 0 0) content-box,
         linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
-            mask-composite: exclude;
+    mask-composite: exclude;
     pointer-events: none;
     z-index: -1;
 }
@@ -230,7 +228,7 @@
         linear-gradient(#fff 0 0) content-box,
         linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
-            mask-composite: exclude;
+    mask-composite: exclude;
     pointer-events: none;
     z-index: -1;
 }
