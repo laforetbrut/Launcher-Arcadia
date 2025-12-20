@@ -1,204 +1,157 @@
-/* Global Login Styles */
+/* Font Import */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
 
 .login .container {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 100vh;
-    width: 100vw;
+    height: 100%;
     font-family: 'Montserrat', sans-serif;
-    overflow: hidden;
-    background: radial-gradient(circle at center, rgba(30, 30, 40, 0.4) 0%, rgba(0, 0, 0, 0.8) 100%);
-    /* Adds depth to the scene */
+    /* Modern Font */
 }
 
-/* Card Styling - Premium Glassmorphism */
+/* Glassmorphism Card Container */
 .login-tabs {
-    position: relative;
-    padding: 3.5rem 4rem;
-    background: rgba(10, 10, 15, 0.65);
-    /* More transparent, lets background show through */
-    backdrop-filter: blur(16px) saturate(180%);
-    -webkit-backdrop-filter: blur(16px) saturate(180%);
-    border-radius: 30px;
+    position: absolute;
+    padding: 3rem;
+
+    /* Dark Forest Glass Style */
+    background: rgba(10, 10, 15, 0.75);
+    backdrop-filter: blur(16px) saturate(140%);
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
+
+    border-radius: 20px;
     text-align: center;
-    width: 480px;
-    max-width: 90%;
+    min-width: 450px;
 
-    /* Premium Shadow & Border */
+    /* Borders & Shadow - Amber Accent */
+    border: 1px solid rgba(245, 158, 11, 0.15);
+    /* Subtle Amber Border */
     box-shadow:
-        0 25px 50px -12px rgba(0, 0, 0, 0.8),
-        0 0 0 1px rgba(255, 255, 255, 0.1),
-        inset 0 1px 1px rgba(255, 255, 255, 0.2);
+        0 20px 50px rgba(0, 0, 0, 0.8),
+        inset 0 1px 1px rgba(255, 255, 255, 0.1);
 
-    border: 1px solid rgba(255, 255, 255, 0.05);
-
-    /* Layout Default: Visible Fallback controlled by specific rules or JS */
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
+    color: #fff;
     z-index: 10;
 }
 
-/* Visibility Logic - Failsafe */
-.login-tabs {
-    display: none;
-}
-
+/* The JS controls display: block/none on these. We verify content layout inside. */
+.login-home,
 .login-offline,
 .login-AZauth,
 .login-AZauth-A2F {
     display: none;
+    /* When shown by JS (display: block), we want a column layout inside */
+    /* We can't use flex on the container easily if JS sets block. 
+       But we can ensure internal elements have margins to space them out. */
 }
-
-.login-tabs.active {
-    display: flex !important;
-    opacity: 1 !important;
-    animation: slideUpFade 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-    z-index: 100;
-}
-
-.login-tabs:not(.active) {
-    display: none;
-    /* Allows default override for specific classes if needed, but generally hides inactive */
-}
-
-/* Force Home to be visible effectively as a fallback if JS fails to toggle classes */
-/* MUST be defined AFTER the generic hide rules and use !important to override specificity */
-.login-home {
-    display: flex !important;
-    /* Default Fallback */
-    opacity: 1 !important;
-}
-
-/* Re-force home to visible if no active class is present handled by JS?
-   No, sticking to the current working fallback is safer:
-   If JS adds active to something else, we need to hide .login-home
-   BUT we can't detect "sibling has active" in CSS.
-   The JS `resetTabs` MUST remove the class or style.
-   Since `resetTabs` works now (hopefully), the `active` logic should hold.
-*/
 
 /* Typography */
 .login-text {
-    font-size: 1.8rem;
-    font-weight: 800;
-    color: #ffffff;
-    margin-bottom: 0.5rem;
-    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.8);
-    letter-spacing: -0.5px;
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    /* Gradient Text: White to Amber */
     background: linear-gradient(135deg, #ffffff 0%, #fcd34d 100%);
-    /* White to Gold */
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
+    text-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
 }
 
-/* Input Fields */
-.input-login {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 1.2rem;
-}
-
-.input-login input,
-.A2F {
-    background: rgba(0, 0, 0, 0.5);
-    border: 2px solid rgba(255, 255, 255, 0.08);
-    border-radius: 16px;
-    width: 100%;
-    padding: 1rem 1.5rem;
+/* Inputs */
+.input-login .email,
+.input-login .password,
+.A2F,
+.input-login input {
+    /* Categorical selector */
+    background: rgba(0, 0, 0, 0.4);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    width: 80%;
+    /* Wider inputs */
+    padding: 1rem;
+    margin-top: 15px;
+    margin-bottom: 5px;
     color: #fff;
     font-size: 1rem;
     font-weight: 500;
-    transition: all 0.3s ease;
     outline: none;
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
+    transition: all 0.3s ease;
+    text-align: center;
+    /* Center text in inputs */
 }
 
-.input-login input:focus,
-.A2F:focus {
-    background: rgba(0, 0, 0, 0.7);
+.input-login .email:focus,
+.input-login .password:focus,
+.A2F:focus,
+.input-login input:focus {
     border-color: #f59e0b;
-    /* Amber focus */
-    box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.2), inset 0 2px 4px rgba(0, 0, 0, 0.5);
-    transform: translateY(-1px);
+    /* Amber */
+    background: rgba(0, 0, 0, 0.6);
+    box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.15);
 }
 
-.input-login input::placeholder,
+.input-login .email::placeholder,
+.input-login .password::placeholder,
 .A2F::placeholder {
     color: rgba(255, 255, 255, 0.4);
-    font-weight: 400;
+}
+
+/* Buttons Container */
+.login-options {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    /* Safety for small screens */
 }
 
 /* Buttons */
-.login-options {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    margin-top: 1rem;
-}
-
 .connect,
 .cancel {
     cursor: pointer;
-    border: none;
-    border-radius: 16px;
-    padding: 1.1rem 0;
     font-size: 1rem;
     font-weight: 700;
-    width: 100%;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     text-transform: uppercase;
-    letter-spacing: 1.5px;
-    position: relative;
-    overflow: hidden;
+    letter-spacing: 1px;
+    padding: 0.8rem 2.5rem;
+    border-radius: 12px;
+    border: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    margin: 0;
+    /* Handled by flex gap */
+    min-width: 140px;
 }
 
+/* Primary Connect Button - Orange Fire Gradient */
 .connect {
     background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
-    /* Orange/Red Gradient */
     color: #fff;
-    box-shadow: 0 8px 20px rgba(234, 88, 12, 0.3);
+    box-shadow: 0 4px 15px rgba(234, 88, 12, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .connect:hover {
     transform: translateY(-2px);
-    box-shadow: 0 12px 28px rgba(234, 88, 12, 0.4);
+    box-shadow: 0 8px 25px rgba(234, 88, 12, 0.6);
     filter: brightness(1.1);
 }
 
 .connect:active {
     transform: translateY(1px);
-    box-shadow: 0 4px 10px rgba(234, 88, 12, 0.3);
 }
 
+/* Cancel Button - Subtle Glass */
 .cancel {
     background: rgba(255, 255, 255, 0.05);
-    color: rgba(255, 255, 255, 0.6);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    color: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .cancel:hover {
     background: rgba(255, 255, 255, 0.1);
     color: #fff;
-    border-color: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.3);
 }
-
-/* New Modern Animation */
-@keyframes slideUpFade {
-    0% {
-        opacity: 0;
-        transform: translateY(20px) scale(0.96);
-    }
-
-    100% {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
-
-/* End of Login styles */

@@ -28,19 +28,13 @@ class Login {
     }
 
     async getMicrosoft() {
-        console.log('Initializing Microsoft login...');
-        try {
-            document.querySelectorAll('.login-tabs').forEach(el => el.classList.remove('active'));
-        } catch (e) {
-            console.error(e);
-        }
+        console.log('[Login] Initializing Microsoft login...');
+        document.querySelectorAll('.login-tabs').forEach(el => el.style.display = 'none');
 
         let popupLogin = new popup();
         let loginHome = document.querySelector('.login-home');
         let microsoftBtn = document.querySelector('.connect-home');
-
-        if (loginHome) loginHome.classList.add('active');
-        else console.error('Login Home not found!');
+        loginHome.style.display = 'block';
 
         microsoftBtn.addEventListener("click", () => {
             popupLogin.openPopup({
@@ -69,15 +63,15 @@ class Login {
     }
 
     async getCrack() {
-        console.log('Initializing offline login...');
-        document.querySelectorAll('.login-tabs').forEach(el => el.classList.remove('active'));
+        console.log('[Login] Initializing offline login...');
+        document.querySelectorAll('.login-tabs').forEach(el => el.style.display = 'none');
 
         let popupLogin = new popup();
         let loginOffline = document.querySelector('.login-offline');
 
         let emailOffline = document.querySelector('.email-offline');
         let connectOffline = document.querySelector('.connect-offline');
-        loginOffline.classList.add('active');
+        loginOffline.style.display = 'block';
 
         connectOffline.addEventListener('click', async () => {
             if (emailOffline.value.length < 3) {
@@ -115,8 +109,6 @@ class Login {
 
     async getAZauth() {
         console.log('Initializing AZauth login...');
-        document.querySelectorAll('.login-tabs').forEach(el => el.classList.remove('active'));
-
         let AZauthClient = new AZauth(this.config.online);
         let PopupLogin = new popup();
         let loginAZauth = document.querySelector('.login-AZauth');
@@ -129,7 +121,7 @@ class Login {
         let AZauthConnectBTN = document.querySelector('.connect-AZauth');
         let AZauthCancelA2F = document.querySelector('.cancel-AZauth-A2F');
 
-        loginAZauth.classList.add('active');
+        loginAZauth.style.display = 'block';
 
         AZauthConnectBTN.addEventListener('click', async () => {
             PopupLogin.openPopup({
@@ -157,13 +149,13 @@ class Login {
                 });
                 return;
             } else if (AZauthConnect.A2F) {
-                loginAZauthA2F.classList.add('active');
-                loginAZauth.classList.remove('active');
+                loginAZauthA2F.style.display = 'block';
+                loginAZauth.style.display = 'none';
                 PopupLogin.closePopup();
 
                 AZauthCancelA2F.addEventListener('click', () => {
-                    loginAZauthA2F.classList.remove('active');
-                    loginAZauth.classList.add('active');
+                    loginAZauthA2F.style.display = 'none';
+                    loginAZauth.style.display = 'block';
                 });
 
                 connectAZauthA2F.addEventListener('click', async () => {
@@ -206,7 +198,7 @@ class Login {
     async saveData(connectionData) {
         let configClient = await this.db.readData('configClient');
         let account = await this.db.createData('accounts', connectionData)
-        let instanceSelect = configClient.instance_selct
+        let instanceSelect = configClient.instance_select
         let instancesList = await config.getInstanceList()
         configClient.account_selected = account.ID;
 
@@ -216,7 +208,7 @@ class Login {
                 if (whitelist !== account.name) {
                     if (instance.name == instanceSelect) {
                         let newInstanceSelect = instancesList.find(i => i.whitelistActive == false)
-                        configClient.instance_selct = newInstanceSelect.name
+                        configClient.instance_select = newInstanceSelect.name
                         await setStatus(newInstanceSelect.status)
                     }
                 }

@@ -78,8 +78,19 @@ async function accountSelect(data) {
 }
 
 async function headplayer(skinBase64) {
-    let skin = await new skin2D().creatHeadTexture(skinBase64);
-    document.querySelector(".player-head").style.backgroundImage = `url(${skin})`;
+    if (!skinBase64) return console.warn('headplayer called with empty skin');
+    try {
+        let skin = await new skin2D().creatHeadTexture(skinBase64);
+        let headElement = document.querySelector(".player-head");
+        if (headElement) {
+            headElement.style.backgroundImage = `url(${skin})`;
+            console.log('Updated player-head background');
+        } else {
+            console.error('player-head element not found');
+        }
+    } catch (e) {
+        console.error('Error generating head texture:', e);
+    }
 }
 
 async function setStatus(opt) {

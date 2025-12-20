@@ -352,6 +352,7 @@
     height: 3rem;
     border-radius: 12px;
 
+    /* Fallback image (ensure filename is correct in your assets) */
     background: url('../../images/default/setve.png') no-repeat center center;
     background-size: cover;
     image-rendering: pixelated;
@@ -359,26 +360,16 @@
     overflow: hidden;
     z-index: 1;
     transition: transform 0.2s ease;
+
+    /* Fixed Border replacement */
+    border: 2px solid #ff6600;
+    box-shadow: 0 0 10px rgba(255, 102, 0, 0.3);
 }
 
-.player-head::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: 12px;
-    padding: 1.5px;
-    background: linear-gradient(90deg, #ff6600, #ff8533);
-    -webkit-mask:
-        linear-gradient(#fff 0 0) content-box,
-        linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    mask:
-        linear-gradient(#fff 0 0) content-box,
-        linear-gradient(#fff 0 0);
-    pointer-events: none;
-    z-index: 2;
-}
+/* Old ::before mask removed to prevent visual blocking */
+/*.player-head::before {
+   content: none;
+}*/
 
 .player-head:hover {
     transform: scale(1.05);
