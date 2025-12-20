@@ -1,50 +1,57 @@
 <div class="container">
+    <!-- Login Home (Choix de connexion) -->
     <div class="login-home login-tabs">
-        <div class="login-text">Veuillez vous identifier afin de jouer.</div>
+        <div class="login-text">Identifiez-vous pour jouer</div>
 
         <div class="login-options">
-            <button class="connect connect-home">Connexion</button>
-            <button class="cancel cancel-home"  style="display: none;">annuler</button>
+            <button class="connect connect-home">Connexion Microsoft</button>
+            <!-- Ajout d'un bouton pour les autres modes si nécessaire, ou géré par JS/CSS contextuel? 
+                 L'original avait juste 'Connexion'. Je suppose que c'est Microsoft par défaut. -->
+            <button class="cancel cancel-home" style="display: none;">Annuler</button>
         </div>
     </div>
 
+    <!-- Login Offline (Crack) -->
     <div class="login-offline login-tabs">
-        <div class="login-text">Veuillez entrer votre pseudo</div>
+        <div class="login-text">Mode Hors-ligne</div>
 
         <div class="input-login">
-            <input type="text" class="email email-offline" placeholder="Pseudo" />
+            <input type="text" class="email email-offline" placeholder="Votre Pseudo" autocomplete="nickname" />
         </div>
 
         <div class="login-options">
-            <button class="connect connect-offline">Connexion</button>
-            <button class="cancel cancel-offline" style="display: none;">annuler</button>
+            <button class="connect connect-offline">Se connecter</button>
+            <button class="cancel cancel-offline" style="display: none;">Annuler</button>
         </div>
     </div>
 
+    <!-- Login AZAuth (Custom Auth) -->
     <div class="login-AZauth login-tabs">
-        <div class="login-text">Veuillez vous connecter afin de jouer.</div>
+        <div class="login-text">Compte Arcadia</div>
 
         <div class="input-login">
-            <input type="text" class="email email-AZauth" placeholder="E-mail" />
-            <input type="password" class="password password-AZauth" placeholder="Password" />
+            <input type="email" class="email email-AZauth" placeholder="Adresse Email" autocomplete="email" />
+            <input type="password" class="password password-AZauth" placeholder="Mot de passe"
+                autocomplete="current-password" />
         </div>
 
         <div class="login-options">
             <button class="connect connect-AZauth">Connexion</button>
-            <button class="cancel cancel-AZauth" style="display: none;">annuler</button>
+            <button class="cancel cancel-AZauth" style="display: none;">Annuler</button>
         </div>
     </div>
 
+    <!-- Login A2F -->
     <div class="login-AZauth-A2F login-tabs">
-        <div class="login-text">Veuillez entrer le code de sécurité.</div>
+        <div class="login-text">Sécurité A2F</div>
 
         <div class="input-login">
-            <input type="text" class="A2F A2F-AZauth" placeholder="Code" />
+            <input type="text" class="A2F A2F-AZauth" placeholder="Code de vérification" maxlength="6" />
         </div>
 
         <div class="login-options">
             <button class="connect connect-AZauth-A2F">Valider</button>
-            <button class="cancel cancel-AZauth-A2F">annuler</button>
+            <button class="cancel cancel-AZauth-A2F">Annuler</button>
         </div>
     </div>
 </div>

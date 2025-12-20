@@ -20,7 +20,7 @@ class Login {
                 this.getAZauth();
             }
         }
-        
+
         document.querySelector('.cancel-home').addEventListener('click', () => {
             document.querySelector('.cancel-home').style.display = 'none'
             changePanel('settings')
@@ -29,10 +29,18 @@ class Login {
 
     async getMicrosoft() {
         console.log('Initializing Microsoft login...');
+        try {
+            document.querySelectorAll('.login-tabs').forEach(el => el.classList.remove('active'));
+        } catch (e) {
+            console.error(e);
+        }
+
         let popupLogin = new popup();
         let loginHome = document.querySelector('.login-home');
         let microsoftBtn = document.querySelector('.connect-home');
-        loginHome.style.display = 'block';
+
+        if (loginHome) loginHome.classList.add('active');
+        else console.error('Login Home not found!');
 
         microsoftBtn.addEventListener("click", () => {
             popupLogin.openPopup({
@@ -62,12 +70,14 @@ class Login {
 
     async getCrack() {
         console.log('Initializing offline login...');
+        document.querySelectorAll('.login-tabs').forEach(el => el.classList.remove('active'));
+
         let popupLogin = new popup();
         let loginOffline = document.querySelector('.login-offline');
 
         let emailOffline = document.querySelector('.email-offline');
         let connectOffline = document.querySelector('.connect-offline');
-        loginOffline.style.display = 'block';
+        loginOffline.classList.add('active');
 
         connectOffline.addEventListener('click', async () => {
             if (emailOffline.value.length < 3) {
@@ -105,6 +115,8 @@ class Login {
 
     async getAZauth() {
         console.log('Initializing AZauth login...');
+        document.querySelectorAll('.login-tabs').forEach(el => el.classList.remove('active'));
+
         let AZauthClient = new AZauth(this.config.online);
         let PopupLogin = new popup();
         let loginAZauth = document.querySelector('.login-AZauth');
@@ -117,7 +129,7 @@ class Login {
         let AZauthConnectBTN = document.querySelector('.connect-AZauth');
         let AZauthCancelA2F = document.querySelector('.cancel-AZauth-A2F');
 
-        loginAZauth.style.display = 'block';
+        loginAZauth.classList.add('active');
 
         AZauthConnectBTN.addEventListener('click', async () => {
             PopupLogin.openPopup({
@@ -145,13 +157,13 @@ class Login {
                 });
                 return;
             } else if (AZauthConnect.A2F) {
-                loginAZauthA2F.style.display = 'block';
-                loginAZauth.style.display = 'none';
+                loginAZauthA2F.classList.add('active');
+                loginAZauth.classList.remove('active');
                 PopupLogin.closePopup();
 
                 AZauthCancelA2F.addEventListener('click', () => {
-                    loginAZauthA2F.style.display = 'none';
-                    loginAZauth.style.display = 'block';
+                    loginAZauthA2F.classList.remove('active');
+                    loginAZauth.classList.add('active');
                 });
 
                 connectAZauthA2F.addEventListener('click', async () => {
