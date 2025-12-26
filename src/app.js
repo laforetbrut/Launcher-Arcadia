@@ -67,7 +67,7 @@ ipcMain.handle('Microsoft-window', async (_, client_id) => {
 ipcMain.handle('is-dark-theme', (_, theme) => {
     if (theme === 'dark') return true
     if (theme === 'light') return false
-    return nativeTheme.shouldUseDarkColors;
+    return true;
 })
 
 app.on('window-all-closed', () => app.quit());
