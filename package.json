@@ -1,7 +1,7 @@
 {
     "name": "arcadia-echoes-of-power",
     "preductname": "Arcadia: Echoes of Power",
-    "version": "1.0.11",
+    "version": "1.1.0",
     "description": "Launcher Arcadia: Echoes Of Power",
     "main": "src/app.js",
     "author": {
@@ -14,7 +14,7 @@
         "start": "cross-env-shell NODE_ENV=dev electron .",
         "dev": "cross-env-shell DEV_TOOL=open nodemon --exec npm start",
         "build": "node build.js --obf=true --build=platform",
-        "icon": "node build.js --icon=https://www.arcadia-echoes-of-power.fr/storage/img/logotransparant.png"
+        "icon": "node build.js --icon=https://www.arcadia-echoes-of-power.fr/storage/img/logoa.png"
     },
     "license": "CCANC",
     "nodemonConfig": {
@@ -39,6 +39,6 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/laforetbrut/arcadia-echoes-of-power"
+        "url": "git+https://github.com/laforetbrut/Launcher-Arcadia"
     }
 }
