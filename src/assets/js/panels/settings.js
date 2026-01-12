@@ -158,7 +158,7 @@ class Settings {
             ram = { ramMin: "1", ramMax: "2" }
         };
 
-        let slider = new Slider(".memory-slider", parseFloat(ram.ramMin), parseFloat(ram.ramMax));
+        this.slider = new Slider(".memory-slider", parseFloat(ram.ramMin), parseFloat(ram.ramMax));
 
         let minSpan = document.querySelector(".slider-touch-left span");
         let maxSpan = document.querySelector(".slider-touch-right span");
@@ -166,7 +166,7 @@ class Settings {
         minSpan.setAttribute("value", `${ram.ramMin} Go`);
         maxSpan.setAttribute("value", `${ram.ramMax} Go`);
 
-        slider.on("change", async (min, max) => {
+        this.slider.on("change", async (min, max) => {
             let config = await this.db.readData('configClient');
             minSpan.setAttribute("value", `${min} Go`);
             maxSpan.setAttribute("value", `${max} Go`);
@@ -348,8 +348,33 @@ class Settings {
             launcher_config: { download_multi: 5, theme: 'auto', closeLauncher: 'close-launcher' }
         };
         await this.db.updateData('configClient', defaultConfig);
+
+        // Update UI manually to avoid reload crash
+        if (this.slider) {
+            this.slider.setMinValue(1);
+            this.slider.setMaxValue(2);
+            document.querySelector(".slider-touch-left span").setAttribute("value", "1 Go");
+            document.querySelector(".slider-touch-right span").setAttribute("value", "2 Go");
+        }
+
+        let javaPathTxt = document.querySelector('.java-path-txt');
+        if (javaPathTxt) javaPathTxt.innerHTML = "";
+        let javaPathInput = document.querySelector('.java-path-input-text');
+        if (javaPathInput) javaPathInput.value = "";
+
+        let widthInput = document.querySelector('.width-size');
+        if (widthInput) widthInput.value = 854;
+        let heightInput = document.querySelector('.height-size');
+        if (heightInput) heightInput.value = 480;
+
+        let maxFilesInput = document.querySelector('.max-files');
+        if (maxFilesInput) maxFilesInput.value = 5;
+
+        document.querySelectorAll('.close-btn').forEach(el => el.classList.remove('active-close'));
+        let closeLauncherBtn = document.querySelector('.close-launcher');
+        if (closeLauncherBtn) closeLauncherBtn.classList.add('active-close');
+
         setBackground();
-        location.reload();
     }
 }
 export default Settings;
