@@ -25,6 +25,20 @@ class Settings {
             if (e.target.classList.contains('nav-settings-btn')) {
                 let id = e.target.id
 
+                if (id == 'reset-all') {
+                    let popupInst = new popup();
+                    popupInst.openPopup({
+                        title: 'Réinitialisation',
+                        content: 'Voulez-vous réinitialiser tous les paramètres par défaut ?',
+                        color: 'red',
+                        options: [
+                            { name: 'Annuler', func: () => { } },
+                            { name: 'Réinitialiser', func: async () => { await this.resetSettings(); } }
+                        ]
+                    });
+                    return;
+                }
+
                 let activeSettingsBTN = document.querySelector('.active-settings-BTN')
                 let activeContainerSettings = document.querySelector('.active-container-settings')
 
@@ -322,6 +336,20 @@ class Settings {
                 }
             }
         })
+    }
+
+    async resetSettings() {
+        let configClient = await this.db.readData('configClient');
+        let defaultConfig = {
+            account_selected: configClient.account_selected,
+            instance_selct: configClient.instance_selct,
+            java_config: { java_path: null, java_memory: { min: 1, max: 2 } },
+            game_config: { screen_size: { width: 854, height: 480 } },
+            launcher_config: { download_multi: 5, theme: 'auto', closeLauncher: 'close-launcher' }
+        };
+        await this.db.updateData('configClient', defaultConfig);
+        setBackground();
+        location.reload();
     }
 }
 export default Settings;

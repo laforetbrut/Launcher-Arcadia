@@ -635,3 +635,39 @@
 .active-instance {
     background: var(--element-color);
 }
+.reinstall-btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 3rem;
+    height: 3rem;
+    margin: 0 1.5rem 0 0;
+    font-size: 1.5rem;
+    line-height: 1;
+    text-align: center;
+    color: var(--element-color);
+    cursor: pointer;
+
+    border: 1.5px solid transparent;
+    border-radius: 12px;
+
+    background:
+        linear-gradient(rgba(20, 20, 20, 0.35), rgba(20, 20, 20, 0.35)) padding-box,
+        linear-gradient(90deg, #ff6600, #ff8533) border-box;
+
+    backdrop-filter: blur(6px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+
+    transition: transform 0.2s ease;
+}
+
+.reinstall-btn::before {
+    content: "\21BB";
+    font-weight: bold;
+}
+
+.reinstall-btn:hover {
+    transform: scale(1.05);
+}

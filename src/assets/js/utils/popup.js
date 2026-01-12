@@ -22,13 +22,32 @@ export default class popup {
         this.popupContent.style.color = info.color ? info.color : '#e21212';
         this.popupContent.innerHTML = info.content;
 
-        if (info.options) this.popupOptions.style.display = 'flex';
+        this.popupOptions.innerHTML = '';
 
-        if (this.popupOptions.style.display !== 'none') {
-            this.popupButton.addEventListener('click', () => {
+        if (Array.isArray(info.options)) {
+            this.popupOptions.style.display = 'flex';
+            info.options.forEach(opt => {
+                let btn = document.createElement('button');
+                btn.className = 'popup-button';
+                btn.textContent = opt.name;
+                btn.addEventListener('click', () => {
+                    if (opt.func) opt.func();
+                    this.closePopup();
+                });
+                this.popupOptions.appendChild(btn);
+            });
+        } else if (info.options) {
+            this.popupOptions.style.display = 'flex';
+            let btn = document.createElement('button');
+            btn.className = 'popup-button';
+            btn.textContent = 'OK';
+            btn.addEventListener('click', () => {
                 if (info.exit) return ipcRenderer.send('main-window-close');
                 this.closePopup();
-            })
+            });
+            this.popupOptions.appendChild(btn);
+        } else {
+            this.popupOptions.style.display = 'none';
         }
     }
 

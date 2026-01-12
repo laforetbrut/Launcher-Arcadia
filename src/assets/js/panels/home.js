@@ -6,6 +6,8 @@ import { config, database, logger, changePanel, appdata, setStatus, pkg, popup }
 
 const { Launch } = require('minecraft-java-core')
 const { shell, ipcRenderer } = require('electron')
+const fs = require('fs');
+const path = require('path');
 
 class Home {
     static id = "home";
@@ -16,6 +18,18 @@ class Home {
         this.socialLick()
         this.instancesSelect()
         document.querySelector('.settings-btn').addEventListener('click', e => changePanel('settings'))
+        document.querySelector('.reinstall-btn').addEventListener('click', () => {
+            let popupInst = new popup();
+            popupInst.openPopup({
+                title: 'Réinstallation',
+                content: 'Voulez-vous vraiment réinstaller le modpack ?<br>Cela supprimera tous les fichiers (mods, config, etc) et retéléchargera tout.',
+                color: 'red',
+                options: [
+                    { name: 'Annuler', func: () => { } },
+                    { name: 'Réinstaller', func: async () => { await this.reinstallModpack(); } }
+                ]
+            })
+        });
     }
 
     async news() {
@@ -364,6 +378,31 @@ class Home {
         let day = date.getDate()
         let allMonth = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre']
         return { year: year, month: allMonth[month - 1], day: day }
+    }
+
+    async reinstallModpack() {
+        let configClient = await this.db.readData('configClient');
+
+        // We assume standard path structure.
+        let dataDir = await appdata();
+        let baseDir = path.join(dataDir, process.platform == 'darwin' ? this.config.dataDirectory : `.${this.config.dataDirectory}`);
+
+        // Folders to nuke
+        const foldersToDelete = ['mods', 'config', 'kubejs', 'versions', 'libraries', 'assets', 'fancymenu_data', 'defaultconfigs'];
+
+        foldersToDelete.forEach(folder => {
+            let target = path.join(baseDir, folder);
+            if (fs.existsSync(target)) {
+                try {
+                    fs.rmSync(target, { recursive: true, force: true });
+                    console.log('Deleted:', target);
+                } catch (e) {
+                    console.error('Failed to delete:', target, e);
+                }
+            }
+        });
+
+        this.startGame();
     }
 }
 export default Home;
