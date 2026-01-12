@@ -343,24 +343,26 @@ class Settings {
         let defaultConfig = {
             account_selected: configClient.account_selected,
             instance_selct: configClient.instance_selct,
-            java_config: { java_path: null, java_memory: { min: 1, max: 2 } },
+            java_config: { java_path: null, java_memory: { min: 8, max: 12 } },
             game_config: { screen_size: { width: 854, height: 480 } },
-            launcher_config: { download_multi: 5, theme: 'auto', closeLauncher: 'close-launcher' }
+            launcher_config: { download_multi: 1, theme: 'auto', closeLauncher: 'close-launcher' }
         };
         await this.db.updateData('configClient', defaultConfig);
 
         // Update UI manually to avoid reload crash
         if (this.slider) {
-            this.slider.setMinValue(1);
-            this.slider.setMaxValue(2);
-            document.querySelector(".slider-touch-left span").setAttribute("value", "1 Go");
-            document.querySelector(".slider-touch-right span").setAttribute("value", "2 Go");
+            this.slider.setMinValue(8);
+            this.slider.setMaxValue(12);
+            document.querySelector(".slider-touch-left span").setAttribute("value", "8 Go");
+            document.querySelector(".slider-touch-right span").setAttribute("value", "12 Go");
         }
 
         let javaPathTxt = document.querySelector('.java-path-txt');
-        if (javaPathTxt) javaPathTxt.innerHTML = "";
+        if (javaPathTxt) {
+            javaPathTxt.textContent = `${await appdata()}/${process.platform == 'darwin' ? this.config.dataDirectory : `.${this.config.dataDirectory}`}/runtime`.replaceAll('/', '\\');
+        }
         let javaPathInput = document.querySelector('.java-path-input-text');
-        if (javaPathInput) javaPathInput.value = "";
+        if (javaPathInput) javaPathInput.value = "Utiliser la version de java fournie avec le launcher";
 
         let widthInput = document.querySelector('.width-size');
         if (widthInput) widthInput.value = 854;
@@ -368,7 +370,7 @@ class Settings {
         if (heightInput) heightInput.value = 480;
 
         let maxFilesInput = document.querySelector('.max-files');
-        if (maxFilesInput) maxFilesInput.value = 5;
+        if (maxFilesInput) maxFilesInput.value = 1;
 
         document.querySelectorAll('.close-btn').forEach(el => el.classList.remove('active-close'));
         let closeLauncherBtn = document.querySelector('.close-launcher');
