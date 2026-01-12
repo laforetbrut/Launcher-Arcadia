@@ -635,6 +635,7 @@
 .active-instance {
     background: var(--element-color);
 }
+
 .reinstall-btn {
     position: relative;
     display: inline-flex;
@@ -643,7 +644,7 @@
 
     width: 3rem;
     height: 3rem;
-    margin: 0 1.5rem 0 0;
+    margin: 0;
     font-size: 1.5rem;
     line-height: 1;
     text-align: center;
@@ -670,4 +671,9 @@
 
 .reinstall-btn:hover {
     transform: scale(1.05);
+}
+.right-buttons {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
 }

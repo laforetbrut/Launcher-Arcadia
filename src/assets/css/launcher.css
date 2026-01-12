@@ -243,19 +243,36 @@ input::-webkit-inner-spin-button {
 
 .popup-options {
     display: none;
-    align-items: end;
-    flex-direction: column;
+    align-items: center;
+    flex-direction: row;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 15px;
 }
 
 .popup-button {
-    background: none;
+    background: transparent;
     color: var(--color);
-    border: solid 4px var(--element-color);
+    border: solid 2px transparent;
+    border-image: var(--element-color) 1;
     border-radius: 10px;
-    padding: 0.3rem 4rem;
-    font-size: inherit;
+    /* Note: border-image and border-radius conflict in standard CSS without workarounds, usually better to use background box-shadow or pseudo-element */
+    /* Let's try a safer approach for rounded borders with gradient */
+    position: relative;
+    background: rgba(20, 20, 20, 0.5);
+    padding: 0.5rem 2rem;
+    font-size: 1.2rem;
     font-weight: bold;
-    margin: 15px 10px;
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.2s;
+    /* Use a simple solid border with the first color of the gradient for safety/compatibility or just a solid color */
+    border: 2px solid #ff6600;
+}
+
+.popup-button:hover {
+    background: var(--element-color);
+    transform: scale(1.05);
+    color: #fff;
 }
 
 .panel {
