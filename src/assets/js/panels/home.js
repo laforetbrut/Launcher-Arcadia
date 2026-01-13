@@ -18,15 +18,15 @@ class Home {
         this.socialLick()
         this.instancesSelect()
         document.querySelector('.settings-btn').addEventListener('click', e => changePanel('settings'))
-        document.querySelector('.reinstall-btn').addEventListener('click', () => {
+        document.querySelector('.delete-btn').addEventListener('click', () => {
             let popupInst = new popup();
             popupInst.openPopup({
-                title: 'Réinstallation',
-                content: 'Voulez-vous vraiment réinstaller le modpack ?<br>Cela supprimera tous les fichiers (mods, config, etc) et retéléchargera tout.',
+                title: 'Suppression',
+                content: 'Voulez-vous vraiment supprimer tout le contenu du dossier instances ?<br>Cette action est irréversible.',
                 color: 'red',
                 options: [
                     { name: 'Annuler', func: () => { } },
-                    { name: 'Réinstaller', func: async () => { await this.reinstallModpack(); } }
+                    { name: 'Supprimer', func: async () => { await this.deleteModpack(); } }
                 ]
             })
         });
@@ -380,29 +380,34 @@ class Home {
         return { year: year, month: allMonth[month - 1], day: day }
     }
 
-    async reinstallModpack() {
-        let configClient = await this.db.readData('configClient');
+    async deleteModpack() {
+        let appDataDir = await appdata();
+        let baseDir = path.join(appDataDir, process.platform == 'darwin' ? this.config.dataDirectory : `.${this.config.dataDirectory}`);
+        let instancesDir = path.join(baseDir, 'instances');
 
-        // We assume standard path structure.
-        let dataDir = await appdata();
-        let baseDir = path.join(dataDir, process.platform == 'darwin' ? this.config.dataDirectory : `.${this.config.dataDirectory}`);
-
-        // Folders to nuke
-        const foldersToDelete = ['mods', 'config', 'kubejs', 'versions', 'libraries', 'assets', 'fancymenu_data', 'defaultconfigs'];
-
-        foldersToDelete.forEach(folder => {
-            let target = path.join(baseDir, folder);
-            if (fs.existsSync(target)) {
-                try {
-                    fs.rmSync(target, { recursive: true, force: true });
-                    console.log('Deleted:', target);
-                } catch (e) {
-                    console.error('Failed to delete:', target, e);
-                }
+        if (fs.existsSync(instancesDir)) {
+            try {
+                fs.rmSync(instancesDir, { recursive: true, force: true });
+                fs.mkdirSync(instancesDir);
+                let popupSuccess = new popup();
+                popupSuccess.openPopup({
+                   title: 'Succès',
+                   content: 'Le modpack a été supprimé avec succès.',
+                   color: 'green',
+                   options: [
+                       { name: 'OK', func: () => { location.reload(); } }
+                   ]
+                });
+            } catch (e) {
+                console.error('Failed to delete instances:', e);
+                let popupError = new popup();
+                popupError.openPopup({
+                   title: 'Erreur',
+                   content: 'Une erreur est survenue lors de la suppression.',
+                   color: 'red'
+                });
             }
-        });
-
-        this.startGame();
+        }
     }
 }
 export default Home;
