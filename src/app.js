@@ -24,8 +24,22 @@ if (dev) {
     app.setPath('appData', appdata)
 }
 
+let store = null;
+
 if (!app.requestSingleInstanceLock()) app.quit();
-else app.whenReady().then(() => {
+else app.whenReady().then(async () => {
+    const { default: Store } = await import('electron-store');
+    const userDataPath = app.getPath('userData');
+
+    store = new Store({
+        name: 'launcher-data',
+        cwd: `${userDataPath}${dev ? '/..' : '/databases'}`,
+        encryptionKey: dev ? undefined : 'arcadia-launcher-key',
+    });
+
+    ipcMain.handle('store:get', (_, key) => store.get(key));
+    ipcMain.handle('store:set', (_, key, value) => store.set(key, value));
+
     if (dev) return MainWindow.createWindow()
     UpdateWindow.createWindow()
 });
@@ -67,7 +81,7 @@ ipcMain.handle('Microsoft-window', async (_, client_id) => {
 ipcMain.handle('is-dark-theme', (_, theme) => {
     if (theme === 'dark') return true
     if (theme === 'light') return false
-    return true;
+    return nativeTheme.shouldUseDarkColors;
 })
 
 app.on('window-all-closed', () => app.quit());
