@@ -223,11 +223,13 @@ class Home {
         let infoStarting = document.querySelector(".info-starting-game-text")
         let progressBar = document.querySelector('.progress-bar')
 
+        let rootPath = `${await appdata()}/${process.platform == 'darwin' ? this.config.dataDirectory : `.${this.config.dataDirectory}`}`
+
         let opt = {
             url: options.url,
             authenticator: authenticator,
             timeout: 10000,
-            path: `${await appdata()}/${process.platform == 'darwin' ? this.config.dataDirectory : `.${this.config.dataDirectory}`}`,
+            path: rootPath,
             instance: options.name,
             version: options.loadder.minecraft_version,
             detached: configClient.launcher_config.closeLauncher == "close-all" ? false : true,
@@ -246,7 +248,7 @@ class Home {
                 // Logique "Smart Ignore" :
                 // 1. Si le fichier existe localement -> On le garde dans ignored (donc pas de verif/overwrite)
                 // 2. Si le fichier n'existe PAS -> On le retire de ignored (donc il sera verifié -> manquant -> téléchargé)
-                let filePath = path.join(opt.path, file);
+                let filePath = path.join(rootPath, file);
                 return fs.existsSync(filePath);
             }),
 
@@ -397,20 +399,20 @@ class Home {
                 fs.mkdirSync(instancesDir);
                 let popupSuccess = new popup();
                 popupSuccess.openPopup({
-                   title: 'Succès',
-                   content: 'Le modpack a été supprimé avec succès.',
-                   color: 'green',
-                   options: [
-                       { name: 'OK', func: () => { location.reload(); } }
-                   ]
+                    title: 'Succès',
+                    content: 'Le modpack a été supprimé avec succès.',
+                    color: 'green',
+                    options: [
+                        { name: 'OK', func: () => { location.reload(); } }
+                    ]
                 });
             } catch (e) {
                 console.error('Failed to delete instances:', e);
                 let popupError = new popup();
                 popupError.openPopup({
-                   title: 'Erreur',
-                   content: 'Une erreur est survenue lors de la suppression.',
-                   color: 'red'
+                    title: 'Erreur',
+                    content: 'Une erreur est survenue lors de la suppression.',
+                    color: 'red'
                 });
             }
         }
