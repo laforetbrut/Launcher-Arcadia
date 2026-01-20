@@ -1,7 +1,7 @@
 {
     "name": "arcadia-echoes-of-power",
     "preductname": "Arcadia: Echoes of Power",
-    "version": "1.2.3",
+    "version": "1.2.4",
     "description": "Launcher Arcadia: Echoes Of Power",
     "main": "src/app.js",
     "author": {

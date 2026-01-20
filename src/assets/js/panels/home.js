@@ -242,7 +242,13 @@ class Home {
 
             verify: options.verify,
 
-            ignored: [...options.ignored],
+            ignored: [...options.ignored].filter(file => {
+                // Logique "Smart Ignore" :
+                // 1. Si le fichier existe localement -> On le garde dans ignored (donc pas de verif/overwrite)
+                // 2. Si le fichier n'existe PAS -> On le retire de ignored (donc il sera verifié -> manquant -> téléchargé)
+                let filePath = path.join(opt.path, file);
+                return fs.existsSync(filePath);
+            }),
 
             java: {
                 path: configClient.java_config.java_path,
