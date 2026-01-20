@@ -249,7 +249,10 @@ class Home {
                 // 1. Si le fichier existe localement -> On le garde dans ignored (donc pas de verif/overwrite)
                 // 2. Si le fichier n'existe PAS -> On le retire de ignored (donc il sera verifié -> manquant -> téléchargé)
                 let filePath = path.join(rootPath, file);
-                return fs.existsSync(filePath);
+                let exists = fs.existsSync(filePath);
+                if (!exists) console.log(`[SmartIgnore] File MISSING, removing from ignored to force download: ${filePath}`);
+                else console.log(`[SmartIgnore] File EXISTS, keeping in ignored (protected): ${filePath}`);
+                return exists;
             }),
 
             java: {
