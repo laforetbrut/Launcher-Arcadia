@@ -276,6 +276,7 @@ class Home {
                 "-XX:MaxTenuringThreshold=1",
                 "-Dusing.aikars.flags=https://mcflags.emc.gs",
                 "-Daikars.new.flags=true",
+                "-Dmodernfix.allowSparkProfiling=true",
                 ...(options.jvm_args || [])
             ],
             GAME_ARGS: options.game_args ? options.game_args : [],
